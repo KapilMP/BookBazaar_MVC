@@ -16,7 +16,8 @@ namespace BookBazaar.DataAccess.Repository
 
         internal DbSet<T> dbset;
 
-        public Repository(ApplicationDbContext db)
+        public Repository(ApplicationDbContext db)//applicationdbcontext will be provided to when the
+                                                  //object will be create (look CategoryRepository.cs)
         {
             _db = db;
             this.dbset = _db.Set<T>(); 

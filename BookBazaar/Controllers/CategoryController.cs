@@ -1,4 +1,5 @@
 ﻿using BookBazaar.Data;
+using BookBazaar.DataAccess.Repository.IRepository;
 using BookBazaar.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,16 +7,16 @@ namespace BookBazaar.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        private readonly ICategoryRepository _category;
+        public CategoryController(ICategoryRepository db)
         {
-            _db = db;   
+            _category = db;   
             
         }
 
         public IActionResult Index()
         {
-            List<Category> objCategories = _db.categories.ToList();
+            List<Category> objCategories = _category.GetAll().ToList();
             return View(objCategories);
 
         }
@@ -36,8 +37,8 @@ namespace BookBazaar.Controllers
                                    //to data annotation provided in model
             {
 
-                _db.categories.Add(obj);
-                _db.SaveChanges();
+                _category.Add(obj);
+                _category.Save();
                 TempData["Success"] = "Category created sucessfully!";
                 return RedirectToAction("Index");
             }
@@ -49,7 +50,7 @@ namespace BookBazaar.Controllers
             {
                 return NotFound();
             }
-            Category? category = _db.categories.FirstOrDefault(c => c.Id == id);
+            Category? category = _category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -69,8 +70,8 @@ namespace BookBazaar.Controllers
                                    //to data annotation provided in model
             {
 
-                _db.categories.Update(obj);
-                _db.SaveChanges();
+                _category.Update(obj);
+                _category.Save();
                 TempData["Success"] = "Category updated sucessfully!";
                 return RedirectToAction("Index");
             }
@@ -82,7 +83,7 @@ namespace BookBazaar.Controllers
             {
                 return NotFound();
             }
-            Category? category = _db.categories.FirstOrDefault(c => c.Id == id);
+            Category? category = _category.Get(u => u.Id==id);
             if (category == null)
             {
                 return NotFound();
@@ -93,14 +94,14 @@ namespace BookBazaar.Controllers
         [ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? category = _db.categories.FirstOrDefault(u => u.Id == id);
+            Category? category = _category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            _db.categories.Remove(category);
-            _db.SaveChanges();
+            _category.Remove(category);
+           _category.Save();
             TempData["Success"] = "Category deleted sucessfully!";
             return RedirectToAction("Index");
           
