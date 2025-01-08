@@ -15,7 +15,9 @@ namespace BookBazaar.DataAccess.Repository.IRepository
         T Get(Expression<Func<T, bool>> filter);//FirstOrDefault(u => u.Id == id)
                                                 //to write this linq operation we use this general syntax
         void Add(T entity); //object which needs to be added.
-      //  void Update(T entity);
+                            //  void Update(T entity);//we dont use update in repo becoz different class 'T'
+                            //has different logic or only update few properties
+                            //to update
         void Remove(T entity);
 
         void RemoveRange(IEnumerable<T> entity); //collection of entity

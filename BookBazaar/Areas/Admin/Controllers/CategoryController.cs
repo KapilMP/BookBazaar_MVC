@@ -1,22 +1,32 @@
 ﻿using BookBazaar.Data;
 using BookBazaar.DataAccess.Repository.IRepository;
 using BookBazaar.Model;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-namespace BookBazaar.Controllers
+namespace BookBazaar.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
+
     {
-        private readonly ICategoryRepository _category;
-        public CategoryController(ICategoryRepository db)
+        //private readonly ApplicationDbContext _db;
+        //asking for implementation of DbContext that is present in program.cs (service container)
+        //by creating constructor with parameter that provides
+        //its implemenation (Data/ApplicationDbContext.cs)
+        // private readonly ICategoryRepository _category;
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _category = db;   
-            
+            _unitOfWork = unitOfWork;//what implementation we get pass to our local variable
         }
 
         public IActionResult Index()
         {
-            List<Category> objCategories = _category.GetAll().ToList();
+            //_db can access all the DbSet<T> we added
+            List<Category> objCategories = _unitOfWork.Category.GetAll().ToList();
+            //_db.Categories.ToList(): this will run select * from categories and
+            //provide it to objCategoryList
             return View(objCategories);
 
         }
@@ -37,8 +47,9 @@ namespace BookBazaar.Controllers
                                    //to data annotation provided in model
             {
 
-                _category.Add(obj);
-                _category.Save();
+                _unitOfWork.Category.Add(obj);//insert the value to the db using .net core
+                                              //without needing of insert sql command or statement
+                _unitOfWork.Save();//execute statement
                 TempData["Success"] = "Category created sucessfully!";
                 return RedirectToAction("Index");
             }
@@ -46,11 +57,11 @@ namespace BookBazaar.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            if(id==null || id == 0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category? category = _category.Get(u => u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -66,12 +77,12 @@ namespace BookBazaar.Controllers
                 // Add an error to the ModelState
                 ModelState.AddModelError("", "The Name cannot be a number.");
             }
-            if (ModelState.IsValid)//modelstate is obj accoring
+            if (ModelState.IsValid)//modelstate is obj according
                                    //to data annotation provided in model
             {
 
-                _category.Update(obj);
-                _category.Save();
+                _unitOfWork.Category.Update(obj);
+                _unitOfWork.Save();
                 TempData["Success"] = "Category updated sucessfully!";
                 return RedirectToAction("Index");
             }
@@ -83,7 +94,7 @@ namespace BookBazaar.Controllers
             {
                 return NotFound();
             }
-            Category? category = _category.Get(u => u.Id==id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -94,17 +105,17 @@ namespace BookBazaar.Controllers
         [ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? category = _category.Get(u => u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            _category.Remove(category);
-           _category.Save();
+            _unitOfWork.Category.Remove(category);
+            _unitOfWork.Save();
             TempData["Success"] = "Category deleted sucessfully!";
             return RedirectToAction("Index");
-          
+
         }
     }
 }

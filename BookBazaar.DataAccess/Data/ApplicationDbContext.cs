@@ -17,8 +17,10 @@ namespace BookBazaar.Data
         }
 
         public DbSet<Category> categories { get; set; }//model's connection with db table
-        //to create categories table in database.
+                                                       //to create categories table in database.
 
+        //seed categroy table
+        //insert data in database category table
         protected override void OnModelCreating(ModelBuilder modelBuilder)//seed data to category table
         {
             modelBuilder.Entity<Category>().HasData(

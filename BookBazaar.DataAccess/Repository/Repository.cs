@@ -13,8 +13,10 @@ namespace BookBazaar.DataAccess.Repository
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
+        //we cant simply use _db.categories.add because we dont know which class the t represents.
 
-        internal DbSet<T> dbset;
+        internal DbSet<T> dbset;//use generic to access Dbset directly
+        //dbSet = it represent table for entity type t
 
         public Repository(ApplicationDbContext db)//applicationdbcontext will be provided to when the
                                                   //object will be create (look CategoryRepository.cs)
@@ -26,7 +28,10 @@ namespace BookBazaar.DataAccess.Repository
         }
         public void Add(T entity)
         {
-           dbset.Add(entity);
+            // _db.Categories.Add(T); this is not valid as we dont know which
+            // specify entity we are working with can be category, product and so on
+            dbset.Add(entity);//_db.Categories.Add(T); same
+        }
         }
 
         public T Get(Expression<Func<T, bool>> filter)
