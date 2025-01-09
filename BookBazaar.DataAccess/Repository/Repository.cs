@@ -32,7 +32,7 @@ namespace BookBazaar.DataAccess.Repository
             // specify entity we are working with can be category, product and so on
             dbset.Add(entity);//_db.Categories.Add(T); same
         }
-        }
+        
 
         public T Get(Expression<Func<T, bool>> filter)
         {

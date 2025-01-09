@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace BookBazaar.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
 
     {
