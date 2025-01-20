@@ -11,7 +11,6 @@ namespace BookBazaar.Areas.Admin.Controllers
     public class CategoryController : Controller
 
     {
-       
         //asking for implementation of DbContext that is present in program.cs (service container)
         //by creating constructor with parameter that provides
         //its implemenation (Data/ApplicationDbContext.cs)
