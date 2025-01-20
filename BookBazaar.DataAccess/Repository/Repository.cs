@@ -22,8 +22,10 @@ namespace BookBazaar.DataAccess.Repository
                                                   //object will be create (look CategoryRepository.cs)
         {
             _db = db;
-            this.dbset = _db.Set<T>(); 
+            this.dbset = _db.Set<T>();
             //_db.categories = dbset
+            _db.products.Include(u => u.Category);
+            //we can ad multiple Include also, it will use to get Category property base on foreign key relationship
             
         }
         public void Add(T entity)
@@ -34,17 +36,36 @@ namespace BookBazaar.DataAccess.Repository
         }
         
 
-        public T Get(Expression<Func<T, bool>> filter)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
             query = query.Where(filter);// filter is condition
                                         // _db.categories.Where(u=>u.Id == id).FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties.
+                    Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        //Category,CoverLetter
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                //if more include then separate with ","
+                foreach(var includeProp in includeProperties.
+                    Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             return query.ToList();  
         }
 

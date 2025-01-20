@@ -18,7 +18,24 @@ namespace BookBazaar.DataAccess.Repository
         }
         public void Update(Product obj)
         {
-            _db.products.Update(obj);
+           var objFromDb = _db.products.FirstOrDefault(u=>u.Id == obj.Id);  
+            if (objFromDb != null)
+            {
+                objFromDb.Title = obj.Title;
+                objFromDb.ISBN = obj.ISBN;
+                objFromDb.Description = obj.Description;    
+                objFromDb.Price = obj.Price;    
+                objFromDb.Price50 = obj.Price50;
+                objFromDb.ListPrice = obj.ListPrice;
+                objFromDb.CategoryId = obj.CategoryId;
+                objFromDb.Author = obj.Author;
+                objFromDb.Price100 = obj.Price100;
+
+                if(obj.ImgUrl != null)
+                {
+                    objFromDb.ImgUrl = obj.ImgUrl;  
+                }
+            }
         }
     }
 }

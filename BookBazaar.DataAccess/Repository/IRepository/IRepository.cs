@@ -11,8 +11,8 @@ namespace BookBazaar.DataAccess.Repository.IRepository
     {
         // T = Category, product or order or so on anything where we want to perform crud operation
         // or interact with DbContext
-        IEnumerable<T> GetAll();
-        T Get(Expression<Func<T, bool>> filter);//FirstOrDefault(u => u.Id == id)
+        IEnumerable<T> GetAll(string? includeProperties = null);
+        T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);//FirstOrDefault(u => u.Id == id)
                                                 //to write this linq operation we use this general syntax
         void Add(T entity); //object which needs to be added.
                             //  void Update(T entity);//we dont use update in repo becoz different class 'T'
