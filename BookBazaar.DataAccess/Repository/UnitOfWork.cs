@@ -16,6 +16,7 @@ namespace BookBazaar.DataAccess.Repository
         public ICategoryRepository Category { get; private set; }
 
         public IProductRepository Product { get; private set; }
+        public ICompanyRepository Company { get; private set; }
 
         // The private database context that will be shared across repositories
         private readonly ApplicationDbContext _db;
@@ -29,6 +30,7 @@ namespace BookBazaar.DataAccess.Repository
                                                    //such that CategoryRepository can interact database
                                                 //now category property of unitofwork can be used anywhere in the application
             Product = new ProductRepository(_db);
+            Company = new CompanyRepository(_db);
         }
         public void Save()
         {

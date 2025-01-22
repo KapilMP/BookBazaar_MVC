@@ -1,0 +1,109 @@
+﻿@model Company
+
+<div class="card my-4 shadow border-0 mb-5 mt-3">
+    <div class="card-header bg-primary bg-gradient m-lg-0 py-1">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-white py-2"> @(Model.Id != 0? "Update": "Create") Company</h1>
+            </div>
+        </div>
+    </div>
+    <div class="card-body py-3">
+        <form method="post" enctype="multipart/form-data">
+            <input asp-for="Id" hidden />
+       
+            <div class="row">
+                <div class="col-10">
+                    <div class="border-0 p-3">
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="Name" class="form-control border-0 shadow" />
+                            <label asp-for="Name" class="ms-2"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+
+                        </div>
+                        
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="PhoneNumber" class="form-control border-0 shadow" />
+                            <label asp-for="PhoneNumber" class="ms-2"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="StreetName" class="form-control border-0 shadow" />
+                            <label asp-for="StreetName" class="ms-2"></label>
+                            <span asp-validation-for="StreetName" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="City" class="form-control border-0 shadow" />
+                            <label asp-for="City" class="ms-2"></label>
+                            <span asp-validation-for="City" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="State" class="form-control border-0 shadow" />
+                            <label asp-for="State" class="ms-2"></label>
+                            <span asp-validation-for="State" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-floating py-3 mb-2">
+                            <input asp-for="PostalCode" class="form-control border-0 shadow" />
+                            <label asp-for="PostalCode" class="ms-2"></label>
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+
+                        </div>
+                      
+
+
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col-6 col-md-3">
+                                @if (Model.Id != 0)
+                                {
+                                    <button type="submit" class="btn btn-primary form-control bg-gradient">
+                                        Update
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary form-control bg-gradient">
+                                        Create
+                                    </button>
+                                }
+
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-controller="Company" asp-action="Index" class="btn btn-outline-primary form-control">
+                                    Back to List
+                                </a>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+               
+        </form>
+    </div>
+</div>
+@* client side validation which is realted to script so we create new section of script *@
+@section Scripts {
+    <script>
+                      tinymce.init({
+          selector: 'textarea',
+          plugins: [
+            'autolink', 'lists', 'link', 'image', 'charmap', 'anchor',
+            'searchreplace', 'visualblocks', 'code', 'table', 'media',
+            'emoticons', 'wordcount'
+          ],
+          toolbar: 'undo redo | bold italic underline | link image media | alignleft aligncenter alignright alignjustify | bullist numlist | table emoticons',
+        });
+
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -22,6 +22,7 @@ namespace BookBazaar.Data
                                                        //to create categories table in database.
         public DbSet<Product> products { get; set; }
         public DbSet<ApplicationUser> applicationUsers { get; set; }
+        public DbSet<Company> companies { get; set; }
         //seed categroy table
         //insert data in database category table
         protected override void OnModelCreating(ModelBuilder modelBuilder)//seed data to category table
@@ -35,6 +36,43 @@ namespace BookBazaar.Data
                 new Category { Id = 3, Name = "Romantic", DisplayOrder = 3 }
 
                 );
+            modelBuilder.Entity<Company>().HasData(
+              new Company 
+              {
+                  Id = 1, 
+                  Name="Tech Nepal", 
+                  StreetName="New Baneshwor", 
+                  City="Kathmandu", 
+                  State="Bagmati", 
+                  PostalCode="123123", 
+                  PhoneNumber="9823123132131"
+              },
+              new Company
+              {
+                  Id = 2,
+                  Name = "Hello Nepal",
+                  StreetName = "Lake Side",
+                  City = "Pokhara",
+                  State = "Gandaki",
+                  PostalCode = "34091231",
+                  PhoneNumber = "9834212345"
+              },
+              new Company
+              {
+                  Id = 3,
+                  Name = "Info Bazzar",
+                  StreetName = "Putalisadak",
+                  City = "Kathmandu",
+                  State = "Bagmati",
+                  PostalCode = "5617231",
+                  PhoneNumber = "9854325678"
+              }
+
+
+
+
+
+             );
             modelBuilder.Entity<Product>().HasData(
               new Product
               {

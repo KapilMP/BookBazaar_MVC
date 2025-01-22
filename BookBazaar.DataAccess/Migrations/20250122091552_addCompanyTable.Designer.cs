@@ -4,6 +4,7 @@ using BookBazaar.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookBazaar.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250122091552_addCompanyTable")]
+    partial class addCompanyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,38 +96,6 @@ namespace BookBazaar.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Kathmandu",
-                            Name = "Tech Nepal",
-                            PhoneNumber = "9823123132131",
-                            PostalCode = "123123",
-                            State = "Bagmati",
-                            StreetName = "New Baneshwor"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Pokhara",
-                            Name = "Hello Nepal",
-                            PhoneNumber = "9834212345",
-                            PostalCode = "34091231",
-                            State = "Gandaki",
-                            StreetName = "Lake Side"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Kathmandu",
-                            Name = "Info Bazzar",
-                            PhoneNumber = "9854325678",
-                            PostalCode = "5617231",
-                            State = "Bagmati",
-                            StreetName = "Putalisadak"
-                        });
                 });
 
             modelBuilder.Entity("BookBazaar.Model.Product", b =>
@@ -477,9 +448,6 @@ namespace BookBazaar.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -492,8 +460,6 @@ namespace BookBazaar.DataAccess.Migrations
 
                     b.Property<string>("StreetName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -558,15 +524,6 @@ namespace BookBazaar.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookBazaar.Model.ApplicationUser", b =>
-                {
-                    b.HasOne("BookBazaar.Model.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
                 });
 #pragma warning restore 612, 618
         }
