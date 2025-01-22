@@ -1,13 +1,16 @@
 ﻿using BookBazaar.Data;
 using BookBazaar.DataAccess.Repository.IRepository;
 using BookBazaar.Model;
+using BookBazaar.Utility;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace BookBazaar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles =SD.Role_Admin)]
     public class CategoryController : Controller
 
     {

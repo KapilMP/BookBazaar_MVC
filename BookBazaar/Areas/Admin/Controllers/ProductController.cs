@@ -1,7 +1,9 @@
 ﻿using BookBazaar.DataAccess.Repository.IRepository;
 using BookBazaar.Model;
 using BookBazaar.Model.ViewModels;
+using BookBazaar.Utility;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
@@ -12,6 +14,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace BookBazaar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

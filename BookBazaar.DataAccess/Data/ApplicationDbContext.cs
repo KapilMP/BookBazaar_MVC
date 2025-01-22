@@ -1,9 +1,11 @@
 ﻿using BookBazaar.Model;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookBazaar.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext:IdentityDbContext
     {
         //implementation of dbcontext
         //dbcontext is the root class of ef core which facilities interaction with the db.
@@ -19,10 +21,14 @@ namespace BookBazaar.Data
         public DbSet<Category> categories { get; set; }//model's connection with db table
                                                        //to create categories table in database.
         public DbSet<Product> products { get; set; }
+        public DbSet<ApplicationUser> applicationUsers { get; set; }
         //seed categroy table
         //insert data in database category table
         protected override void OnModelCreating(ModelBuilder modelBuilder)//seed data to category table
         {
+            //add this line as keys of identity tables are mapped in the OnModelCreating
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Category>().HasData(
                  new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
                 new Category { Id = 2, Name = "Sci-fi", DisplayOrder = 2 },
