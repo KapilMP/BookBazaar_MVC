@@ -24,7 +24,7 @@ namespace BookBazaar.DataAccess.Repository
             _db = db;
             this.dbset = _db.Set<T>();
             //_db.categories = dbset
-            _db.products.Include(u => u.Category);
+            _db.products.Include(u => u.Category).Include(u => u.CategoryId);
             //we can ad multiple Include also, it will use to get Category property base on foreign key relationship
             
         }
@@ -36,9 +36,17 @@ namespace BookBazaar.DataAccess.Repository
         }
         
 
-        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbset;
+            IQueryable<T> query;
+            if (tracked)
+            {
+                query = dbset;
+            }
+            else
+            {
+                query = dbset.AsNoTracking();
+            }
             query = query.Where(filter);// filter is condition
                                         // _db.categories.Where(u=>u.Id == id).FirstOrDefault();
 
@@ -54,9 +62,13 @@ namespace BookBazaar.DataAccess.Repository
         }
 
         //Category,CoverLetter
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbset;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 //if more include then separate with ","

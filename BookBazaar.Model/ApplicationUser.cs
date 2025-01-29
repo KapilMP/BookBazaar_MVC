@@ -24,5 +24,6 @@ namespace BookBazaar.Model
         [ValidateNever]
         public Company Company { get; set; }
 
+       
     }
 }
