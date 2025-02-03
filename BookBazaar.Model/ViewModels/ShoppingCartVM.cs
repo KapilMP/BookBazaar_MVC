@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace BookBazaar.Model.ViewModels
 {
-   public class ShoppingCartVm
+   public class ShoppingCartVM
     {
         public IEnumerable<ShoppingCart> ShoppingCartList { get; set; }
-        public double OrderTotal { get; set; }
+        public OrderHeader OrderHeader { get; set; }
+       // public double OrderTotal { get; set; }
+       // now i can access ordertotal from orderheader
     }
 }

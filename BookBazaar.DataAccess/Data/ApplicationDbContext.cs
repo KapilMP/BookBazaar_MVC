@@ -24,6 +24,8 @@ namespace BookBazaar.Data
         public DbSet<ApplicationUser> applicationUsers { get; set; }
         public DbSet<Company> companies { get; set; }
         public DbSet<ShoppingCart> shoppingCarts { get; set; }
+        public DbSet<OrderHeader> orderHeaders { get; set; }
+        public DbSet<OrderDetail> orderDetails { get; set; }
         //seed categroy table
         //insert data in database category table
         protected override void OnModelCreating(ModelBuilder modelBuilder)//seed data to category table
